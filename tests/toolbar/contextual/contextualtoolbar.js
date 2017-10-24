@@ -12,6 +12,7 @@ import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+import LiveRange from '@ckeditor/ckeditor5-engine/src/model/liverange';
 
 import { setData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model.js';
 
@@ -426,7 +427,7 @@ describe( 'ContextualToolbar', () => {
 
 			// Collapse range silently (without firing `change:range` { directChange: true } event).
 			const range = editor.document.selection._ranges[ 0 ];
-			range.end = range.start;
+			editor.document.selection._ranges[ 0 ] = new LiveRange( range.start, range.start );
 
 			editor.document.selection.fire( 'change:range', { directChange: false } );
 
