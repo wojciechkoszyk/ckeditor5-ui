@@ -47,6 +47,8 @@ export default class BoxedEditorUIView extends EditorUIView {
 		 */
 		this.main = this.createCollection();
 
+		const bind = this.bindTemplate;
+
 		this.template = new Template( {
 			tag: 'div',
 
@@ -59,7 +61,11 @@ export default class BoxedEditorUIView extends EditorUIView {
 				role: 'application',
 				dir: 'ltr',
 				lang: locale.lang,
-				'aria-labelledby': `cke-editor__aria-label_${ ariaLabelUid }`
+				'aria-labelledby': `cke-editor__aria-label_${ ariaLabelUid }`,
+				style: {
+					width: bind.to( 'width', value => `${ value }` ),
+					height: bind.to( 'height', value => `${ value }` )
+				}
 			},
 
 			children: [
