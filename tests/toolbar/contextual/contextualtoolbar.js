@@ -13,6 +13,7 @@ import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+import priorities from '@ckeditor/ckeditor5-utils/src/priorities';
 
 import { setData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model.js';
 
@@ -242,7 +243,7 @@ describe( 'ContextualToolbar', () => {
 			expect( balloonAddSpy.firstCall.args[ 0 ].position.target() ).to.deep.equal( backwardSelectionRect );
 		} );
 
-		it( 'should update balloon position on view#change event while balloon is added to the #_balloon', () => {
+		it( 'should update balloon position on view#render event while balloon is added to the #_balloon', () => {
 			setData( model, '<paragraph>b[a]r</paragraph>' );
 
 			const spy = sandbox.spy( balloon, 'updatePosition' );
@@ -254,6 +255,21 @@ describe( 'ContextualToolbar', () => {
 
 			editingView.fire( 'render' );
 			sinon.assert.calledOnce( spy );
+		} );
+
+		it( 'should update balloon position on view#render event on low priority - after rendering to the DOM', () => {
+			setData( model, '<paragraph>b[a]r</paragraph>' );
+			contextualToolbar.show();
+
+			const spyBefore = sandbox.spy();
+			const spy = sandbox.spy( balloon, 'updatePosition' );
+			const spyAfter = sandbox.spy();
+
+			editingView.on( 'render', spyBefore, { priority: priorities.get( 'low' ) + 1 } );
+			editingView.on( 'render', spyAfter, { priority: 'low' } );
+			editingView.fire( 'render' );
+
+			sinon.assert.callOrder( spyBefore, spy, spyAfter );
 		} );
 
 		it( 'should not add #toolbarView to the #_balloon more than once', () => {
@@ -336,7 +352,7 @@ describe( 'ContextualToolbar', () => {
 			sinon.assert.calledWithExactly( removeBalloonSpy, contextualToolbar.toolbarView );
 		} );
 
-		it( 'should stop update balloon position on ViewDocument#change event', () => {
+		it( 'should stop update balloon position on ViewDocument#render event', () => {
 			setData( model, '<paragraph>b[a]r</paragraph>' );
 
 			const spy = sandbox.spy( balloon, 'updatePosition' );

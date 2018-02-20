@@ -167,11 +167,11 @@ export default class ContextualToolbar extends Plugin {
 			return;
 		}
 
-		// Update the toolbar position upon change (e.g. external document changes)
-		// while it's visible.
+		// Update the toolbar position upon change (e.g. external document changes) while it's visible.
+		// Use 'low' priority to update position after view is rendered to the DOM.
 		this.listenTo( this.editor.editing.view, 'render', () => {
 			this._balloon.updatePosition( this._getBalloonPositionData() );
-		} );
+		}, { priority: 'low' } );
 
 		// Add the toolbar to the common editor contextual balloon.
 		this._balloon.add( {
