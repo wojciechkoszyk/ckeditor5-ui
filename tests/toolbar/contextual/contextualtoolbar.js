@@ -13,7 +13,6 @@ import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import priorities from '@ckeditor/ckeditor5-utils/src/priorities';
 
 import { setData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model.js';
 
@@ -257,19 +256,16 @@ describe( 'ContextualToolbar', () => {
 			sinon.assert.calledOnce( spy );
 		} );
 
-		it( 'should update balloon position on view#render event on low priority - after rendering to the DOM', () => {
+		it( 'should update balloon position after DOM is rendered', () => {
 			setData( model, '<paragraph>b[a]r</paragraph>' );
 			contextualToolbar.show();
 
-			const spyBefore = sandbox.spy();
+			const renderSpy = sandbox.spy( editingView, '_render' );
 			const spy = sandbox.spy( balloon, 'updatePosition' );
-			const spyAfter = sandbox.spy();
 
-			editingView.on( 'render', spyBefore, { priority: priorities.get( 'low' ) + 1 } );
-			editingView.on( 'render', spyAfter, { priority: 'low' } );
 			editingView.fire( 'render' );
 
-			sinon.assert.callOrder( spyBefore, spy, spyAfter );
+			sinon.assert.callOrder( renderSpy, spy );
 		} );
 
 		it( 'should not add #toolbarView to the #_balloon more than once', () => {
