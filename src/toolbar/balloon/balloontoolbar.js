@@ -253,8 +253,15 @@ export default class BalloonToolbar extends Plugin {
 		this.listenTo( this.editor.ui, 'update', () => {
 			// Don't reposition the toolbar when awaiting visibility toggle. It may cause unnecessary
 			// movement of the toolbar before it disappears.
-			if ( !this._isVisibilityTogglePending ) {
-				this._balloon.updatePosition( this._getBalloonPositionData() );
+			if ( this._isVisibilityTogglePending ) {
+				this.once( '_toggleVisibilityDebounced', () => {
+					// The toolbar could be hidden upon #_toggleVisibilityDebounced.
+					if ( this._isToolbarVisible ) {
+						this._updatePosition();
+					}
+				}, { priority: 'low' } );
+			} else {
+				this._updatePosition();
 			}
 		} );
 
@@ -274,6 +281,15 @@ export default class BalloonToolbar extends Plugin {
 			this.stopListening( this.editor.ui, 'update' );
 			this._balloon.remove( this.toolbarView );
 		}
+	}
+
+	/**
+	 * Updates the position of the toolbar.
+	 *
+	 * @private
+	 */
+	_updatePosition() {
+		this._balloon.updatePosition( this._getBalloonPositionData() );
 	}
 
 	/**

@@ -298,18 +298,25 @@ describe( 'BalloonToolbar', () => {
 			expect( targetRect ).to.deep.equal( backwardSelectionRect );
 		} );
 
-		it( 'should update balloon position on ui#update event when #toolbarView is already added to the #_balloon', () => {
+		it( 'should update balloon position on ui#update event when #toolbarView is already added to the #_balloon', done => {
+			const spy = sandbox.spy( balloonToolbar, '_updatePosition' );
+
 			setData( model, '<paragraph>b[a]r</paragraph>' );
 
-			const spy = sandbox.spy( balloon, 'updatePosition' );
+			// Wait for any pending visibility checks.
+			balloonToolbar.once( '_toggleVisibilityDebounced', () => {
+				// Show the toolbar manually. Now, once visible, the toolbar starts
+				// positioning upon editor.ui#update.
+				balloonToolbar.show();
 
-			editor.ui.fire( 'update' );
+				editor.ui.fire( 'update' );
+				sinon.assert.calledOnce( spy );
 
-			balloonToolbar.show();
-			sinon.assert.notCalled( spy );
+				editor.ui.fire( 'update' );
+				sinon.assert.calledTwice( spy );
 
-			editor.ui.fire( 'update' );
-			sinon.assert.calledOnce( spy );
+				done();
+			} );
 		} );
 
 		it( 'should not add #toolbarView to the #_balloon more than once', () => {
