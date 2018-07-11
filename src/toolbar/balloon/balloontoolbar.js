@@ -153,18 +153,18 @@ export default class BalloonToolbar extends Plugin {
 
 			// Show/hide the toolbar on editable focus/blur.
 			else if ( eventName == 'change:isFocused' ) {
-				if ( !this._isEditingViewFoused && this._isToolbarVisible ) {
+				const isFocused = data;
+
+				if ( !isFocused && this._isToolbarVisible ) {
 					this.hide();
-				} else if ( this._isEditingViewFoused ) {
+				} else if ( isFocused ) {
 					this.show();
 				}
 			}
 
-			// Show the toolbar when the selection stops changing.
-			else if ( eventName === '_selectionChangeDebounced' ) {
-				if ( this._isEditingViewFoused ) {
-					this.show();
-				}
+			// _selectionChangeDebounced Show the toolbar when the selection stops changing.
+			else if ( this.focusTracker.isFocused ) {
+				this.show();
 			}
 
 			// Let the position updater know that no showing/hiding is pending.
@@ -193,16 +193,6 @@ export default class BalloonToolbar extends Plugin {
 	 */
 	get _isToolbarVisible() {
 		return this._balloon.visibleView === this.toolbarView;
-	}
-
-	/**
-	 * Returns `true` when the {@link module:engine/view/document~Document View document} has focus.
-	 *
-	 * @protected
-	 * @returns {Boolean}
-	 */
-	get _isEditingViewFoused() {
-		return this.editor.editing.view.document.isFocused;
 	}
 
 	/**
@@ -252,14 +242,15 @@ export default class BalloonToolbar extends Plugin {
 		// Update the toolbar position when the editor ui should be refreshed.
 		this.listenTo( this.editor.ui, 'update', () => {
 			// Don't reposition the toolbar when awaiting visibility toggle. It may cause unnecessary
-			// movement of the toolbar before it disappears.
+			// movement just before it disappears as a result of the toggle.
 			if ( this._isVisibilityTogglePending ) {
 				this.once( '_toggleVisibilityDebounced', () => {
 					// The toolbar could be hidden upon #_toggleVisibilityDebounced.
+					// In such case, don't re-position an invisible toolbar.
 					if ( this._isToolbarVisible ) {
 						this._updatePosition();
 					}
-				}, { priority: 'low' } );
+				} );
 			} else {
 				this._updatePosition();
 			}
