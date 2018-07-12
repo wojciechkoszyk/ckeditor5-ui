@@ -122,6 +122,8 @@ export default class BalloonToolbar extends Plugin {
 			this._toggleVisibilityDebounced( eventName, data );
 		};
 
+		// The appearance of the BalloonToolbar method is event–driven.
+		// It is possible to stop the #show event and this prevent the toolbar from showing up.
 		this.decorate( 'show' );
 	}
 
