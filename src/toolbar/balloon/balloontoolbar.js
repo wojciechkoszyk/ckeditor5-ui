@@ -121,6 +121,8 @@ export default class BalloonToolbar extends Plugin {
 
 			this._toggleVisibilityDebounced( eventName, data );
 		};
+
+		this.decorate( 'show' );
 	}
 
 	/**

@@ -588,6 +588,29 @@ describe( 'BalloonToolbar', () => {
 		} );
 	} );
 
+	describe( 'show event', () => {
+		it( 'should fire `show` event just before panel shows', () => {
+			const spy = sandbox.spy();
+
+			balloonToolbar.on( 'show', spy );
+			setData( model, '<paragraph>b[a]r</paragraph>' );
+
+			balloonToolbar.show();
+			sinon.assert.calledOnce( spy );
+		} );
+
+		it( 'should not show the panel when `show` event is stopped', () => {
+			const balloonAddSpy = sandbox.spy( balloon, 'add' );
+
+			setData( model, '<paragraph>b[a]r</paragraph>' );
+
+			balloonToolbar.on( 'show', evt => evt.stop(), { priority: 'high' } );
+
+			balloonToolbar.show();
+			sinon.assert.notCalled( balloonAddSpy );
+		} );
+	} );
+
 	function stubSelectionRects( rects ) {
 		const originalViewRangeToDom = editingView.domConverter.viewRangeToDom;
 
