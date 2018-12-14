@@ -74,7 +74,6 @@ export default class EditorUIView extends View {
 			attributes: {
 				class: [
 					'ck',
-					'ck-reset_all',
 					'ck-body',
 					'ck-rounded-corners'
 				]
