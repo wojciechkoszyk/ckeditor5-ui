@@ -10,6 +10,7 @@ import testUtils from '@ckeditor/ckeditor5-core/tests/_utils/utils';
 import View from '../src/view';
 import ViewCollection from '../src/viewcollection';
 import normalizeHtml from '@ckeditor/ckeditor5-utils/tests/_utils/normalizehtml';
+import log from '@ckeditor/ckeditor5-utils/src/log';
 
 let collection;
 
@@ -112,6 +113,64 @@ describe( 'ViewCollection', () => {
 				expect( view.element.childNodes ).to.have.length( 2 );
 				expect( view.element.childNodes[ 0 ] ).to.equal( viewA.element );
 				expect( view.element.childNodes[ 1 ] ).to.equal( viewC.element );
+			} );
+
+			// https://github.com/ckeditor/ckeditor5-ui/issues/468
+			it( 'warns when removed element has been focused', () => {
+				const warnSpy = sinon.stub( log, 'warn' );
+				const focusedView = new View();
+				const notFocusedView = new View();
+				const parentElement = document.createElement( 'p' );
+
+				collection.setParent( parentElement );
+
+				focusedView.setTemplate( { tag: 'div' } );
+				notFocusedView.setTemplate( { tag: 'div' } );
+
+				collection.add( focusedView );
+				collection.add( notFocusedView );
+
+				const activeElementStub = sinon.stub( document, 'activeElement' ).get( () => focusedView.element );
+
+				collection.remove( notFocusedView );
+
+				sinon.assert.notCalled( warnSpy );
+
+				collection.remove( focusedView );
+
+				sinon.assert.calledOnce( warnSpy );
+				sinon.assert.calledWith( warnSpy,
+					'viewcollection-remove-focused-element: Removed element has been focused. ' +
+					'It is recommended to move focus from the element before removing it.'
+				);
+
+				activeElementStub.restore();
+			} );
+
+			// https://github.com/ckeditor/ckeditor5-ui/issues/468
+			it( 'warns when a child of removed element has been focused', () => {
+				const warnSpy = sinon.stub( log, 'warn' );
+				const focusedView = new View();
+				const notFocusedView = new View();
+				const parentElement = document.createElement( 'p' );
+
+				collection.setParent( parentElement );
+
+				focusedView.setTemplate( { tag: 'div' } );
+				notFocusedView.setTemplate( {
+					tag: 'div',
+					children: [ focusedView ]
+				} );
+
+				collection.add( notFocusedView );
+
+				const activeElementStub = sinon.stub( document, 'activeElement' ).get( () => focusedView.element );
+
+				collection.remove( notFocusedView );
+
+				sinon.assert.calledOnce( warnSpy );
+
+				activeElementStub.restore();
 			} );
 		} );
 	} );

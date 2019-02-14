@@ -7,10 +7,13 @@
  * @module ui/viewcollection
  */
 
+/* global document */
+
 import CKEditorError from '@ckeditor/ckeditor5-utils/src/ckeditorerror';
 import ObservableMixin from '@ckeditor/ckeditor5-utils/src/observablemixin';
 import Collection from '@ckeditor/ckeditor5-utils/src/collection';
 import mix from '@ckeditor/ckeditor5-utils/src/mix';
+import log from '@ckeditor/ckeditor5-utils/src/log';
 
 /**
  * Collects {@link module:ui/view~View} instances.
@@ -76,6 +79,13 @@ export default class ViewCollection extends Collection {
 		// Handle {@link module:ui/view~View#element} in DOM when a view is removed from the collection.
 		this.on( 'remove', ( evt, view ) => {
 			if ( view.element && this._parentElement ) {
+				if ( view.element.contains( document.activeElement ) ) {
+					log.warn(
+						'viewcollection-remove-focused-element: Removed element has been focused. ' +
+						'It is recommended to move focus from the element before removing it.'
+					);
+				}
+
 				view.element.remove();
 			}
 		} );
