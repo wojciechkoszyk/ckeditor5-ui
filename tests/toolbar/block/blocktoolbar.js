@@ -217,6 +217,10 @@ describe( 'BlockToolbar', () => {
 	} );
 
 	describe( 'allowed elements', () => {
+		beforeEach( () => {
+			editor.editing.view.focus();
+		} );
+
 		it( 'should display the button when the first selected block is a block element', () => {
 			editor.model.schema.register( 'foo', { inheritAllFrom: '$block' } );
 			editor.conversion.elementToElement( { model: 'foo', view: 'foo' } );
@@ -273,6 +277,8 @@ describe( 'BlockToolbar', () => {
 			// Be sure that window is not scrolled.
 			testUtils.sinon.stub( window, 'scrollX' ).get( () => 0 );
 			testUtils.sinon.stub( window, 'scrollY' ).get( () => 0 );
+
+			editor.editing.view.focus();
 		} );
 
 		it( 'should attach the right side of the button to the left side of the editable and center with the first line ' +
