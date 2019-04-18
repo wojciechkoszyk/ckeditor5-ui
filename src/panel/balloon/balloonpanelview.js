@@ -12,6 +12,7 @@ import { getOptimalPosition } from '@ckeditor/ckeditor5-utils/src/dom/position';
 import isRange from '@ckeditor/ckeditor5-utils/src/dom/isrange';
 import toUnit from '@ckeditor/ckeditor5-utils/src/dom/tounit';
 import global from '@ckeditor/ckeditor5-utils/src/dom/global';
+import env from '@ckeditor/ckeditor5-utils/src/env';
 import { isElement } from 'lodash-es';
 
 import '../../../theme/components/panel/balloonpanel.css';
@@ -326,7 +327,7 @@ export default class BalloonPanelView extends View {
 
 		// Then we need to listen on scroll event of eny element in the document.
 		this.listenTo( global.document, 'scroll', ( evt, domEvt ) => {
-			const scrollTarget = domEvt.target;
+			const scrollTarget = env.isIe11 && domEvt.target == global.document ? global.document.body : domEvt.target;
 
 			// The position needs to be updated if the positioning target is within the scrolled element.
 			const isWithinScrollTarget = targetElement && scrollTarget.contains( targetElement );
