@@ -63,7 +63,7 @@ describe( 'ColorGridView', () => {
 			view.render();
 
 			// Note: Different browsers use different value optimization.
-			expect( view.element.style.gridTemplateColumns ).to.be.oneOf( [ '1fr 1fr 1fr', 'repeat(3, 1fr)' ] );
+			expect( view.element.firstChild.style.gridTemplateColumns ).to.be.oneOf( [ '1fr 1fr 1fr', 'repeat(3, 1fr)' ] );
 
 			view.destroy();
 		} );
