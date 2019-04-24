@@ -35,7 +35,6 @@ export default class ColorGridView extends View {
 		super( locale );
 
 		const colorDefinitions = options && options.colorDefinitions || [];
-		const viewStyleAttribute = {};
 
 		/**
 		 * Number of columns in the color grid
@@ -49,7 +48,7 @@ export default class ColorGridView extends View {
 		 *
 		 * @type {String}
 		 */
-		this.recentlyUsedLabel = options && options.recentlyUsedLabel;
+		this.gridLabel = options && options.gridLabel;
 
 		/**
 		 * The color of the currently selected color tile in {@link #items}.
@@ -60,7 +59,8 @@ export default class ColorGridView extends View {
 		this.set( 'selectedColor' );
 
 		/**
-		 * Collection of the child tile views.
+		 * Collection of the child tile views used. All items are wrapped with div element,
+		 * which can be sibling to {@link #gridLabel}, if label is defined.
 		 *
 		 * @readonly
 		 * @member {module:ui/viewcollection~ViewCollection}
@@ -133,7 +133,7 @@ export default class ColorGridView extends View {
 			this.items.add( colorTile );
 		} );
 
-		if ( this.recentlyUsedLabel ) {
+		if ( this.gridLabel ) {
 			this.children.push( this.generateLabelTemplate() );
 		}
 		this.children.push( this.generateItemsTemplate() );
@@ -145,8 +145,7 @@ export default class ColorGridView extends View {
 				class: [
 					'ck',
 					'ck-color-grid'
-				],
-				style: viewStyleAttribute
+				]
 			}
 		} );
 
@@ -233,7 +232,7 @@ export default class ColorGridView extends View {
 		return new Template( {
 			tag: 'div',
 			children: [
-				this.recentlyUsedLabel
+				this.gridLabel
 			],
 			attributes: {
 				class: [
