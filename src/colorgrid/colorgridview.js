@@ -68,6 +68,14 @@ export default class ColorGridView extends View {
 		this.items = this.createCollection();
 
 		/**
+		 * Keeps information if current grid is empty.
+		 *
+		 * @observable
+		 * @type {Boolean}
+		 */
+		this.set( 'isEmpty', false );
+
+		/**
 		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #recentlyUsedLabel} is defined,
 		 * then additionally to items section, there will be rendered label for given color grid.
 		 *
@@ -112,6 +120,17 @@ export default class ColorGridView extends View {
 			}
 		} );
 
+		this.items.on( 'add', ( evt, item ) => {
+			item.isOn = item.color === this.selectedColor;
+			this.set( 'isEmpty', false );
+		} );
+
+		this.items.on( 'remove', () => {
+			if ( this.items.length < 1 ) {
+				this.set( 'isEmpty', true );
+			}
+		} );
+
 		colorDefinitions.forEach( item => {
 			const colorTile = new ColorTileView();
 
@@ -138,13 +157,16 @@ export default class ColorGridView extends View {
 		}
 		this.children.push( this.generateItemsTemplate() );
 
+		const bind = this.bindTemplate;
+
 		this.setTemplate( {
 			tag: 'div',
 			children: this.children,
 			attributes: {
 				class: [
 					'ck',
-					'ck-color-grid'
+					'ck-color-grid',
+					bind.if( 'isEmpty', 'ck-hidden' )
 				]
 			}
 		} );
