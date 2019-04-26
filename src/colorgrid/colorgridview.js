@@ -37,7 +37,7 @@ export default class ColorGridView extends View {
 		const colorDefinitions = options && options.colorDefinitions || [];
 
 		/**
-		 * Number of columns in the color grid
+		 * Number of columns in the color grid.
 		 *
 		 * @type {Number}
 		 */
@@ -60,7 +60,7 @@ export default class ColorGridView extends View {
 
 		/**
 		 * Collection of the child tile views used. All items are wrapped with div element,
-		 * which can be sibling to {@link #gridLabel}, if label is defined.
+		 * which can be sibling to {@link #gridLabel}, if grid label is defined.
 		 *
 		 * @readonly
 		 * @member {module:ui/viewcollection~ViewCollection}
@@ -70,13 +70,14 @@ export default class ColorGridView extends View {
 		/**
 		 * Keeps information if current grid is empty.
 		 *
+		 * @readonly
 		 * @observable
 		 * @type {Boolean}
 		 */
 		this.set( 'isEmpty', false );
 
 		/**
-		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #recentlyUsedLabel} is defined,
+		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #gridLabel} is defined,
 		 * then additionally to items section, there will be rendered label for given color grid.
 		 *
 		 * @readonly

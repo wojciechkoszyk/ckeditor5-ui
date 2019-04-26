@@ -36,6 +36,9 @@ export default class ColorTileView extends ButtonView {
 		 */
 		this.set( 'hasBorder' );
 
+		/**
+		 * @inheritdoc
+		 */
 		this.icon = checkIcon;
 
 		this.extendTemplate( {
