@@ -144,8 +144,10 @@ export default class ColorGridView extends View {
 			colorTile.on( 'execute', () => {
 				this.fire( 'execute', {
 					value: item.color,
-					hasBorder: item.options.hasBorder,
-					label: item.label
+					label: item.label,
+					options: {
+						hasBorder: item.options.hasBorder,
+					}
 				} );
 			} );
 
