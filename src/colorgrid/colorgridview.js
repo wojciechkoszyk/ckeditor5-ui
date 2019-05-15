@@ -74,16 +74,17 @@ export default class ColorGridView extends View {
 		 * @observable
 		 * @type {Boolean}
 		 */
-		this.set( 'isEmpty', false );
+		this.set( 'isEmpty', true );
 
 		/**
 		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #label} is defined,
 		 * then additionally to items section, there will be rendered label for given color grid.
 		 *
+		 * @protected
 		 * @readonly
 		 * @type {Array.<module:ui/template~Template>}
 		 */
-		this.children = [];
+		this._children = [];
 
 		/**
 		 * Tracks information about DOM focus in the grid.
@@ -156,20 +157,18 @@ export default class ColorGridView extends View {
 		} );
 
 		if ( this.label ) {
-			this.children.push( this.generateLabelTemplate() );
+			this._children.push( this._generateLabelTemplate() );
 		}
-		this.children.push( this.generateItemsTemplate() );
-
-		const bind = this.bindTemplate;
+		this._children.push( this._generateItemsTemplate() );
 
 		this.setTemplate( {
 			tag: 'div',
-			children: this.children,
+			children: this._children,
 			attributes: {
 				class: [
 					'ck',
 					'ck-color-grid',
-					bind.if( 'isEmpty', 'ck-hidden' )
+					this.bindTemplate.if( 'isEmpty', 'ck-hidden' )
 				]
 			}
 		} );
@@ -228,7 +227,7 @@ export default class ColorGridView extends View {
 	 * @private
 	 * @returns {module:ui/template~Template} Template with collection of {@link module:ui/colorgrid/colortile~ColorTileView}.
 	 */
-	generateItemsTemplate() {
+	_generateItemsTemplate() {
 		const style = {};
 		if ( this.columns !== undefined ) {
 			style.gridTemplateColumns = `repeat( ${ this.columns }, 1fr)`;
@@ -253,7 +252,7 @@ export default class ColorGridView extends View {
 	 * @private
 	 * @returns {module:ui/template~Template} Template with label for color grid.
 	 */
-	generateLabelTemplate() {
+	_generateLabelTemplate() {
 		return new Template( {
 			tag: 'div',
 			children: [

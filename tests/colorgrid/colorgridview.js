@@ -68,6 +68,13 @@ describe( 'ColorGridView', () => {
 			view.destroy();
 		} );
 
+		it( 'has properly defined isEmpty value', () => {
+			const emptyView = new ColorGridView( locale );
+			expect( emptyView.isEmpty ).to.be.true;
+
+			expect( view.isEmpty ).to.be.false;
+		} );
+
 		it( 'creates the view without provided color definitions', () => {
 			const view = new ColorGridView( locale );
 			view.render();
