@@ -29,7 +29,7 @@ export default class ColorGridView extends View {
 	 * @param {Array.<module:ui/colorgrid/colorgrid~ColorDefinition>} [options.colorDefinitions] Array with definitions
 	 * required to create the {@link module:ui/colorgrid/colortile~ColorTileView tiles}.
 	 * @param {Number} options.columns A number of columns to display the tiles.
-	 * @param {String} options.recentlyUsedLabel A label for a color grid.
+	 * @param {String} options.label A label for a color grid.
 	 */
 	constructor( locale, options ) {
 		super( locale );
@@ -48,7 +48,7 @@ export default class ColorGridView extends View {
 		 *
 		 * @type {String}
 		 */
-		this.gridLabel = options && options.gridLabel;
+		this.label = options && options.label;
 
 		/**
 		 * The color of the currently selected color tile in {@link #items}.
@@ -60,7 +60,7 @@ export default class ColorGridView extends View {
 
 		/**
 		 * Collection of the child tile views used. All items are wrapped with div element,
-		 * which can be sibling to {@link #gridLabel}, if grid label is defined.
+		 * which can be sibling to {@link #label}, if grid label is defined.
 		 *
 		 * @readonly
 		 * @member {module:ui/viewcollection~ViewCollection}
@@ -77,7 +77,7 @@ export default class ColorGridView extends View {
 		this.set( 'isEmpty', false );
 
 		/**
-		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #gridLabel} is defined,
+		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #label} is defined,
 		 * then additionally to items section, there will be rendered label for given color grid.
 		 *
 		 * @readonly
@@ -155,7 +155,7 @@ export default class ColorGridView extends View {
 			this.items.add( colorTile );
 		} );
 
-		if ( this.gridLabel ) {
+		if ( this.label ) {
 			this.children.push( this.generateLabelTemplate() );
 		}
 		this.children.push( this.generateItemsTemplate() );
@@ -257,7 +257,7 @@ export default class ColorGridView extends View {
 		return new Template( {
 			tag: 'div',
 			children: [
-				this.gridLabel
+				this.label
 			],
 			attributes: {
 				class: [

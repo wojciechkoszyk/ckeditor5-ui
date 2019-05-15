@@ -125,7 +125,7 @@ describe( 'ColorGridView', () => {
 		describe( 'add label from definition as child item', () => {
 			let viewWithLabel;
 			beforeEach( () => {
-				viewWithLabel = new ColorGridView( locale, { colorDefinitions, gridLabel: 'Recently used:' } );
+				viewWithLabel = new ColorGridView( locale, { colorDefinitions, label: 'Recently used:' } );
 				viewWithLabel.render();
 			} );
 			afterEach( () => {
