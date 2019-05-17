@@ -77,16 +77,6 @@ export default class ColorGridView extends View {
 		this.set( 'isEmpty', true );
 
 		/**
-		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #label} is defined,
-		 * then additionally to items section, there will be rendered label for given color grid.
-		 *
-		 * @protected
-		 * @readonly
-		 * @type {Array.<module:ui/template~Template>}
-		 */
-		this._children = [];
-
-		/**
 		 * Tracks information about DOM focus in the grid.
 		 *
 		 * @readonly
@@ -101,6 +91,16 @@ export default class ColorGridView extends View {
 		 * @member {module:utils/keystrokehandler~KeystrokeHandler}
 		 */
 		this.keystrokes = new KeystrokeHandler();
+
+		/**
+		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #label} is defined,
+		 * then additionally to items section, there will be rendered label for given color grid.
+		 *
+		 * @protected
+		 * @readonly
+		 * @type {Array.<module:ui/template~Template>}
+		 */
+		this._children = [];
 
 		/**
 		 * Helps cycling over focusable {@link #items} in the grid.
