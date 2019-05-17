@@ -29,7 +29,7 @@ export default class ColorGridView extends View {
 	 * @param {Array.<module:ui/colorgrid/colorgrid~ColorDefinition>} [options.colorDefinitions] Array with definitions
 	 * required to create the {@link module:ui/colorgrid/colortile~ColorTileView tiles}.
 	 * @param {Number} options.columns A number of columns to display the tiles.
-	 * @param {String} options.label A label for a color grid.
+	 * @param {String} [options.label] A label for a color grid.
 	 */
 	constructor( locale, options ) {
 		super( locale );
