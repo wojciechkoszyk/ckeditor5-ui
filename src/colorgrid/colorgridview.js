@@ -29,7 +29,7 @@ export default class ColorGridView extends View {
 	 * @param {Array.<module:ui/colorgrid/colorgrid~ColorDefinition>} [options.colorDefinitions] Array with definitions
 	 * required to create the {@link module:ui/colorgrid/colortile~ColorTileView tiles}.
 	 * @param {Number} options.columns A number of columns to display the tiles.
-	 * @param {String} [options.label] A label for a color grid.
+	 * @param {String} [options.label] A label for the color grid.
 	 */
 	constructor( locale, options ) {
 		super( locale );
@@ -44,7 +44,7 @@ export default class ColorGridView extends View {
 		this.columns = options && options.columns;
 
 		/**
-		 * The label used to describe given color grid.
+		 * A label used to describe the color grid.
 		 *
 		 * @type {String}
 		 */
@@ -68,7 +68,7 @@ export default class ColorGridView extends View {
 		this.items = this.createCollection();
 
 		/**
-		 * Keeps information if current grid is empty.
+		 * Indicates whether the grid is empty.
 		 *
 		 * @readonly
 		 * @observable
@@ -93,8 +93,7 @@ export default class ColorGridView extends View {
 		this.keystrokes = new KeystrokeHandler();
 
 		/**
-		 * Array of {@link module:ui/template~Template} rendered directly in color grid. If {@link #label} is defined,
-		 * then additionally to items section, there will be rendered label for given color grid.
+		 * Array of {@link module:ui/template~Template} rendered directly inside of a grid.
 		 *
 		 * @protected
 		 * @readonly
@@ -222,7 +221,7 @@ export default class ColorGridView extends View {
 	}
 
 	/**
-	 * Helper method, which returns template containing collection of {@link module:ui/colorgrid/colortile~ColorTileView}.
+	 * Helper method returning a template containing color tiles.
 	 *
 	 * @private
 	 * @returns {module:ui/template~Template} Template with collection of {@link module:ui/colorgrid/colortile~ColorTileView}.
@@ -247,10 +246,8 @@ export default class ColorGridView extends View {
 	}
 
 	/**
-	 * Helper method return template with label for color grid.
-	 *
 	 * @private
-	 * @returns {module:ui/template~Template} Template with label for color grid.
+	 * @returns {module:ui/template~Template} Template with a label for the color grid.
 	 */
 	_generateLabelTemplate() {
 		return new Template( {
