@@ -129,16 +129,19 @@ describe( 'ColorGridView', () => {
 			} );
 		} );
 
-		describe( 'add label from definition as child item', () => {
+		describe( 'support adding a label', () => {
 			let viewWithLabel;
+
 			beforeEach( () => {
 				viewWithLabel = new ColorGridView( locale, { colorDefinitions, label: 'Recently used:' } );
 				viewWithLabel.render();
 			} );
+
 			afterEach( () => {
 				viewWithLabel.destroy();
 			} );
-			it( 'Recently used label is add to color grid', () => {
+
+			it( 'properly sets the text of a label', () => {
 				expect( viewWithLabel.element.firstChild.innerText ).to.equal( 'Recently used:' );
 			} );
 		} );
