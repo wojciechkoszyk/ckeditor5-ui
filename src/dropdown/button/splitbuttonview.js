@@ -119,6 +119,18 @@ export default class SplitButtonView extends View {
 		} );
 	}
 
+	destroy() {
+		super.destroy();
+
+		this.focusTracker.destroy();
+		this.keystrokes.destroy();
+
+		this.arrowView && this.arrowView.destroy();
+		this.arrowView = null;
+		this.actionView && this.actionView.destroy();
+		this.actionView = null;
+	}
+
 	/**
 	 * @inheritDoc
 	 */

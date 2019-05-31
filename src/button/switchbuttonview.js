@@ -59,6 +59,13 @@ export default class SwitchButtonView extends ButtonView {
 		this.children.add( this.toggleSwitchView );
 	}
 
+	destroy() {
+		super.destroy();
+
+		this.toggleSwitchView && this.toggleSwitchView.destroy();
+		this.toggleSwitchView = null;
+	}
+
 	/**
 	 * Creates a toggle child view.
 	 *

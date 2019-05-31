@@ -130,6 +130,14 @@ export default class ColorGridView extends View {
 		} );
 	}
 
+	destroy() {
+		super.destroy();
+
+		this.focusTracker && this.focusTracker && this.focusTracker.destroy(); this.focusTracker = null;
+		this.keystrokes && this.keystrokes && this.keystrokes.destroy(); this.keystrokes = null;
+		this._focusCycler && this._focusCycler && this._focusCycler.destroy(); this._focusCycler = null;
+	}
+
 	/**
 	 * Focuses the first focusable in {@link #items}.
 	 */

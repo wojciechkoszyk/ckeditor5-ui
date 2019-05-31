@@ -105,7 +105,7 @@ export default class EditableUIView extends View {
 	 * @inheritDoc
 	 */
 	destroy() {
-		if ( this._hasExternalElement ) {
+		if ( this._hasExternalElement && this.template ) {
 			this.template.revert( this._editableElement );
 		}
 

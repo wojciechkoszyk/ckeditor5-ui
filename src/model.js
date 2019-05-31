@@ -34,6 +34,11 @@ export default class Model {
 			this.set( attributes );
 		}
 	}
+
+	destroy() {
+		this.stopListening();
+		this._destroyObservable();
+	}
 }
 
 mix( Model, ObservableMixin );

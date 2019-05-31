@@ -169,6 +169,17 @@ export default class ContextualBalloon extends Plugin {
 		this._fakePanelsView = this._createFakePanelsView();
 	}
 
+	destroy() {
+		super.destroy();
+
+		this.view && this.view.destroy();
+		this.view = null;
+		this._rotatorView && this._rotatorView.destroy();
+		this._rotatorView = null;
+		this._fakePanelsView && this._fakePanelsView.destroy();
+		this._fakePanelsView = null;
+	}
+
 	/**
 	 * Returns `true` when the given view is in one of the stack. Otherwise returns `false`.
 	 *
@@ -610,6 +621,14 @@ class RotatorView extends View {
 		this.focusTracker.add( this.element );
 	}
 
+	destroy() {
+		super.destroy();
+
+		this.focusTracker.destroy();
+		this.buttonPrevView.destroy();
+		this.buttonNextView.destroy();
+	}
+
 	/**
 	 * Shows given view.
 	 *
@@ -727,6 +746,12 @@ class FakePanelsView extends View {
 
 			this.updatePosition();
 		} );
+	}
+
+	destroy() {
+		super.destroy();
+
+		this.content.map( c => c.destroy() );
 	}
 
 	// @private

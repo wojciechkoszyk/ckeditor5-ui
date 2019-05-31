@@ -56,6 +56,11 @@ export default class ComponentFactory {
 		this._components = new Map();
 	}
 
+	destroy() {
+		this._components.clear();
+		this.editor = null;
+	}
+
 	/**
 	 * Returns an iterator of registered component names. Names are returned in lower case.
 	 *

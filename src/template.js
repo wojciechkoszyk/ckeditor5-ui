@@ -144,6 +144,20 @@ export default class Template {
 		return node;
 	}
 
+	destroy() {
+		this.stopListening();
+
+		if ( this.children ) {
+			for ( const child of this.children ) {
+				if ( child.destroy ) {
+					child.destroy();
+				}
+			}
+
+			this.children = [];
+		}
+	}
+
 	/**
 	 * Applies the template to an existing DOM Node, either HTML element or text.
 	 *
@@ -211,7 +225,9 @@ export default class Template {
 			throw new CKEditorError( 'ui-template-revert-not-applied: Attempting to revert a template which has not been applied yet.' );
 		}
 
-		this._revertTemplateFromNode( node, this._revertData );
+		if ( node ) {
+			this._revertTemplateFromNode( node, this._revertData );
+		}
 	}
 
 	/**

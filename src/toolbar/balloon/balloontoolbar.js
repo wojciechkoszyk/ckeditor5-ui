@@ -258,7 +258,8 @@ export default class BalloonToolbar extends Plugin {
 
 		this.stopListening();
 		this._fireSelectionChangeDebounced.cancel();
-		this.toolbarView.destroy();
+		this.toolbarView && this.toolbarView.destroy();
+		this.toolbarView = null;
 		this.focusTracker.destroy();
 	}
 

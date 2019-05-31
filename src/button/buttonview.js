@@ -157,6 +157,23 @@ export default class ButtonView extends View {
 		} );
 	}
 
+	destroy() {
+		super.destroy();
+		if ( this.iconView ) {
+			this.iconView.destroy();
+			this.iconView = null;
+		}
+
+		if ( this.tooltipView ) {
+			this.tooltipView.destroy();
+			this.tooltipView = null;
+		}
+		if ( this.labelView ) {
+			this.labelView.destroy();
+			this.labelView = null;
+		}
+	}
+
 	/**
 	 * @inheritDoc
 	 */

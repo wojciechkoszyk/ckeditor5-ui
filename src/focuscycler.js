@@ -125,6 +125,13 @@ export default class FocusCycler {
 		}
 	}
 
+	destroy() {
+		this.focusables && this.focusables.clear();
+		this.actions = null;
+		this.focusables = null;
+		this.keystrokeHandler = null;
+	}
+
 	/**
 	 * Returns the first focusable view in {@link #focusables}.
 	 * Returns `null` if there is none.

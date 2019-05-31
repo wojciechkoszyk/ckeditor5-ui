@@ -229,6 +229,13 @@ export default class DropdownView extends View {
 		 */
 	}
 
+	destroy() {
+		super.destroy();
+
+		this.focusTracker.destroy();
+		this.keystrokes.destroy();
+	}
+
 	/**
 	 * @inheritDoc
 	 */
