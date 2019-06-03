@@ -59,6 +59,7 @@ export default class EditorUIView extends View {
 	 */
 	destroy() {
 		this._bodyCollectionContainer.remove();
+		this._bodyTemplate.destroy();
 
 		return super.destroy();
 	}
@@ -69,7 +70,7 @@ export default class EditorUIView extends View {
 	 * @private
 	 */
 	_renderBodyCollection() {
-		const bodyElement = this._bodyCollectionContainer = new Template( {
+		const bodyTemplate = new Template( {
 			tag: 'div',
 			attributes: {
 				class: [
@@ -80,8 +81,10 @@ export default class EditorUIView extends View {
 				]
 			},
 			children: this.body
-		} ).render();
+		} );
+		const bodyElement = this._bodyCollectionContainer = bodyTemplate.render();
 
+		this._bodyTemplate = bodyTemplate;
 		document.body.appendChild( bodyElement );
 	}
 }
