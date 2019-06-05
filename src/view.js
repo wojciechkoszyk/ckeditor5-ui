@@ -17,9 +17,6 @@ import mix from '@ckeditor/ckeditor5-utils/src/mix';
 import isIterable from '@ckeditor/ckeditor5-utils/src/isiterable';
 
 import '../theme/globals/globals.css';
-// import uid from '../../ckeditor5-utils/src/uid';
-//
-// const map = new Map();
 
 /**
  * The basic view class, which represents an HTML element created out of a
@@ -127,9 +124,6 @@ export default class View {
 		 * @member {HTMLElement}
 		 */
 		this.element = null;
-		// this.___uid = uid();
-		//
-		// map.set( this.___uid, this.constructor.name );
 
 		/**
 		 * Set `true` when the view has already been {@link module:ui/view~View#render rendered}.
@@ -498,12 +492,6 @@ export default class View {
 	destroy() {
 		this.stopListening();
 
-		// map.delete( this.___uid );
-		//
-		// if ( map.size < 18 ) {
-		// 	console.log( 'still:', [ ...map.entries() ] );
-		// }
-
 		if ( this._viewCollections ) {
 			this._viewCollections.map( c => c.destroy() );
 			this._viewCollections.stopListening();
@@ -521,7 +509,9 @@ export default class View {
 			this.template.revert( this.element );
 		}
 
-		this.template.destroy();
+		if ( this.template ) {
+			this.template.destroy();
+		}
 
 		this._destroyObservable();
 	}
