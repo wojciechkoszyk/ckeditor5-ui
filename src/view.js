@@ -517,7 +517,7 @@ export default class View {
 		}
 
 		// Template isn't obligatory for views.
-		if ( this.template._revertData ) {
+		if ( this.template && this.template._revertData ) {
 			this.template.revert( this.element );
 		}
 
