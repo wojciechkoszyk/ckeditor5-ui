@@ -115,9 +115,9 @@ export default class ToolbarView extends View {
 	destroy() {
 		super.destroy();
 
-		this.focusTracker && this.focusTracker && this.focusTracker.destroy(); this.focusTracker = null;
-		this.keystrokes && this.keystrokes && this.keystrokes.destroy(); this.keystrokes = null;
-		this._focusCycler && this._focusCycler && this._focusCycler.destroy(); this._focusCycler = null;
+		this.focusTracker.destroy();
+		this.keystrokes.destroy();
+		this._focusCycler.destroy();
 	}
 
 	/**

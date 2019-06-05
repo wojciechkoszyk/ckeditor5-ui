@@ -508,25 +508,21 @@ export default class View {
 			this._viewCollections.map( c => c.destroy() );
 			this._viewCollections.stopListening();
 			this._viewCollections.clear();
-			this._viewCollections = null;
 		}
 
 		if ( this._unboundChildren ) {
 			this._unboundChildren.map( c => c.destroy() );
 			this._unboundChildren.stopListening();
 			this._unboundChildren.clear();
-			this._unboundChildren = null;
 		}
 
 		// Template isn't obligatory for views.
-		if ( this.template && this.template._revertData ) {
+		if ( this.template._revertData ) {
 			this.template.revert( this.element );
 		}
 
-		this.template && this.template.destroy();
-		this.template = null;
+		this.template.destroy();
 
-		this.element = undefined;
 		this._destroyObservable();
 	}
 

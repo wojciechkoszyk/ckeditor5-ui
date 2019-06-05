@@ -149,12 +149,9 @@ export default class LabeledInputView extends View {
 	destroy() {
 		super.destroy();
 
-		this.labelView && this.labelView.destroy();
-		this.inputView && this.inputView.destroy();
-		this.statusView && this.statusView.destroy();
-		this.labelView = null;
-		this.inputView = null;
-		this.statusView = null;
+		this.labelView.destroy();
+		this.inputView.destroy();
+		this.statusView.destroy();
 	}
 
 	/**

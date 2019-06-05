@@ -62,8 +62,7 @@ export default class SwitchButtonView extends ButtonView {
 	destroy() {
 		super.destroy();
 
-		this.toggleSwitchView && this.toggleSwitchView.destroy();
-		this.toggleSwitchView = null;
+		this.toggleSwitchView.destroy();
 	}
 
 	/**

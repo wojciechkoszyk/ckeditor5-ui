@@ -196,6 +196,7 @@ export default class StickyPanelView extends View {
 
 			children: this.content
 		} );
+
 		/**
 		 * The panel which accepts children into {@link #content} collection.
 		 * Also an element which is positioned when {@link #isSticky}.
@@ -205,7 +206,6 @@ export default class StickyPanelView extends View {
 		 */
 		this._contentPanel = template.render();
 		this._contentPanelTemplate = template;
-
 
 		this.setTemplate( {
 			tag: 'div',
@@ -227,11 +227,7 @@ export default class StickyPanelView extends View {
 
 		this.content.destroy();
 
-		this._contentPanelTemplate && this._contentPanelTemplate.destroy();
-		this._contentPanel = null;
-		this._parentElement = null;
-		this._panelRect = null;
-		this.limiterElement = null;
+		this._contentPanelTemplate.destroy();
 	}
 
 	/**

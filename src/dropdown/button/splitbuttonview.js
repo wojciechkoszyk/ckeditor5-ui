@@ -125,10 +125,8 @@ export default class SplitButtonView extends View {
 		this.focusTracker.destroy();
 		this.keystrokes.destroy();
 
-		this.arrowView && this.arrowView.destroy();
-		this.arrowView = null;
-		this.actionView && this.actionView.destroy();
-		this.actionView = null;
+		this.arrowView.destroy();
+		this.actionView.destroy();
 	}
 
 	/**

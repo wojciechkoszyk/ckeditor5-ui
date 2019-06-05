@@ -124,14 +124,11 @@ export default class FocusCycler {
 			}
 		}
 
-		options.actions =null;
+		options.actions = null;
 	}
 
 	destroy() {
-		this.focusables && this.focusables.clear();
-		this.actions = null;
-		this.focusables = null;
-		this.keystrokeHandler = null;
+		this.focusables.clear();
 	}
 
 	/**

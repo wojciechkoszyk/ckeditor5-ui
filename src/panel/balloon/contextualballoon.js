@@ -172,12 +172,9 @@ export default class ContextualBalloon extends Plugin {
 	destroy() {
 		super.destroy();
 
-		this.view && this.view.destroy();
-		this.view = null;
-		this._rotatorView && this._rotatorView.destroy();
-		this._rotatorView = null;
-		this._fakePanelsView && this._fakePanelsView.destroy();
-		this._fakePanelsView = null;
+		this.view.destroy();
+		this._rotatorView.destroy();
+		this._fakePanelsView.destroy();
 	}
 
 	/**

@@ -58,7 +58,6 @@ export default class ComponentFactory {
 
 	destroy() {
 		this._components.clear();
-		this.editor = null;
 	}
 
 	/**
