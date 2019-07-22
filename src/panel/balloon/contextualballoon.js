@@ -120,7 +120,7 @@ export default class ContextualBalloon extends Plugin {
 		 * The map of views and their stacks.
 		 *
 		 * @private
-		 * @type {Map.<module:ui/view~View,Set>}
+		 * @type {Map.<module:ui/view~View,Map>}
 		 */
 		this._viewToStack = new Map();
 
@@ -128,7 +128,7 @@ export default class ContextualBalloon extends Plugin {
 		 * The map of IDs and stacks.
 		 *
 		 * @private
-		 * @type {Map.<String,Set>}
+		 * @type {Map.<String,Map>}
 		 */
 		this._idToStack = new Map();
 
@@ -136,7 +136,6 @@ export default class ContextualBalloon extends Plugin {
 		 * A total number of all stacks in the balloon.
 		 *
 		 * @private
-		 * @readonly
 		 * @observable
 		 * @member {Number} #_numberOfStacks
 		 */
@@ -146,7 +145,6 @@ export default class ContextualBalloon extends Plugin {
 		 * A flag that controls the single view mode.
 		 *
 		 * @private
-		 * @readonly
 		 * @observable
 		 * @member {Boolean} #_singleViewMode
 		 */
@@ -192,8 +190,8 @@ export default class ContextualBalloon extends Plugin {
 	 * @param {Boolean} [data.withArrow=true] Whether the {@link #view balloon} should be rendered with an arrow.
 	 * @param {Boolean} [data.singleViewMode=false] Whether the view should be the only visible view even if other stacks were added.
 	 */
-	add( data ) {
-		if ( this.hasView( data.view ) ) {
+	add( { stackId = 'main', view, position, balloonClassName, withArrow = true, singleViewMode = false } ) {
+		if ( this.hasView( view ) ) {
 			/**
 			 * Trying to add configuration of the same view more than once.
 			 *
@@ -201,38 +199,22 @@ export default class ContextualBalloon extends Plugin {
 			 */
 			throw new CKEditorError(
 				'contextualballoon-add-view-exist: Cannot add configuration of the same view twice.',
-				[ this, data ]
+				this
 			);
 		}
 
-		const stackId = data.stackId || 'main';
+		const stack = this._idToStack.get( stackId ) || new Map();
+		const viewAdditionalData = { position, balloonClassName, withArrow, singleViewMode };
 
-		// If new stack is added, creates it and show view from this stack.
-		if ( !this._idToStack.has( stackId ) ) {
-			this._idToStack.set( stackId, new Map( [ [ data.view, data ] ] ) );
-			this._viewToStack.set( data.view, this._idToStack.get( stackId ) );
-			this._numberOfStacks = this._idToStack.size;
+		stack.set( view, viewAdditionalData );
+		this._idToStack.set( stackId, stack );
+		this._viewToStack.set( view, stack );
+		this._numberOfStacks = this._idToStack.size;
 
-			if ( !this._visibleStack || data.singleViewMode ) {
-				this.showStack( stackId );
-			}
-
-			return;
-		}
-
-		const stack = this._idToStack.get( stackId );
-
-		if ( data.singleViewMode ) {
+		if ( stack === this._visibleStack || singleViewMode ) {
+			this._showView( view );
+		} else if ( !this._visibleStack ) {
 			this.showStack( stackId );
-		}
-
-		// Add new view to the stack.
-		stack.set( data.view, data );
-		this._viewToStack.set( data.view, stack );
-
-		// And display it if is added to the currently visible stack.
-		if ( stack === this._visibleStack ) {
-			this._showView( data );
 		}
 	}
 
@@ -275,7 +257,7 @@ export default class ContextualBalloon extends Plugin {
 					this._rotatorView.hideView();
 				}
 			} else {
-				this._showView( Array.from( stack.values() )[ stack.size - 2 ] );
+				this._showView( Array.from( stack.keys() )[ stack.size - 2 ] );
 			}
 		}
 
@@ -310,7 +292,6 @@ export default class ContextualBalloon extends Plugin {
 	 * @param {String} id
 	 */
 	showStack( id ) {
-		this.visibleStack = id;
 		const stack = this._idToStack.get( id );
 
 		if ( !stack ) {
@@ -329,14 +310,14 @@ export default class ContextualBalloon extends Plugin {
 			return;
 		}
 
-		this._showView( Array.from( stack.values() ).pop() );
+		this._showView( Array.from( stack.keys() ).pop() );
 	}
 
 	/**
 	 * Returns the stack of the currently visible view.
 	 *
 	 * @private
-	 * @type {Set}
+	 * @type {Map}
 	 */
 	get _visibleStack() {
 		return this._viewToStack.get( this.visibleView );
@@ -468,23 +449,19 @@ export default class ContextualBalloon extends Plugin {
 	 * options of the first view.
 	 *
 	 * @private
-	 * @param {Object} data Configuration.
-	 * @param {module:ui/view~View} [data.view] The view to show in the balloon.
-	 * @param {String} [data.balloonClassName=''] Additional class name which will be added to the {@link #view balloon}.
-	 * @param {Boolean} [data.withArrow=true] Whether the {@link #view balloon} should be rendered with an arrow.
+	 * @param {module:ui/view~View} view The view to show in the balloon.
 	 */
-	_showView( { view, balloonClassName = '', withArrow = true, singleViewMode = false } ) {
+	_showView( view ) {
+		const stack = this._viewToStack.get( view );
+		const { balloonClassName, withArrow, singleViewMode } = stack.get( view );
+
 		this.view.class = balloonClassName;
 		this.view.withArrow = withArrow;
-
 		this._rotatorView.showView( view );
 		this.visibleView = view;
 		this.view.pin( this._getBalloonPosition() );
 		this._fakePanelsView.updatePosition();
-
-		if ( singleViewMode ) {
-			this._singleViewMode = true;
-		}
+		this._singleViewMode = singleViewMode;
 	}
 
 	/**
