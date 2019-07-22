@@ -512,7 +512,8 @@ describe( 'ContextualBalloon', () => {
 		it( 'should switch stack to the next one when removed view was the last one in the visible stack', () => {
 			balloon.add( {
 				stackId: 'second',
-				view: viewB
+				view: viewB,
+				position: {}
 			} );
 
 			balloon.remove( viewA );
@@ -528,7 +529,8 @@ describe( 'ContextualBalloon', () => {
 				view: viewB,
 				position: {
 					target: 'fake',
-					limiter: balloon.positionLimiter
+					limiter: balloon.positionLimiter,
+					position: {}
 				}
 			} );
 
@@ -542,7 +544,8 @@ describe( 'ContextualBalloon', () => {
 				view: viewB,
 				position: {
 					target: 'fake',
-					limiter: balloon.positionLimiter
+					limiter: balloon.positionLimiter,
+					position: {}
 				}
 			} );
 
@@ -555,17 +558,13 @@ describe( 'ContextualBalloon', () => {
 			balloon.add( {
 				view: viewB,
 				stackId: 'second',
-				position: {
-					target: 'fake'
-				}
+				position: {}
 			} );
 
 			balloon.add( {
 				view: viewC,
 				stackId: 'second',
-				position: {
-					target: 'fake'
-				}
+				position: {}
 			} );
 
 			balloon.remove( viewB );
@@ -579,13 +578,11 @@ describe( 'ContextualBalloon', () => {
 			} ).to.not.throw();
 		} );
 
-		it( 'should remove not displayed stack when removied view was the last one in the stack', () => {
+		it( 'should remove not displayed stack when removed view was the last one in the stack', () => {
 			balloon.add( {
 				view: viewB,
 				stackId: 'second',
-				position: {
-					target: 'fake'
-				}
+				position: {}
 			} );
 
 			balloon.remove( viewB );
@@ -743,7 +740,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			expect( navigationElement.classList.contains( 'ck-hidden' ) ).to.equal( false );
@@ -756,7 +754,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			expect( counterElement.textContent ).to.equal( '1 of 2' );
@@ -769,12 +768,14 @@ describe( 'ContextualBalloon', () => {
 		it( 'should switch stack to the next one after clicking next button', () => {
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			balloon.add( {
 				view: viewC,
-				stackId: 'third'
+				stackId: 'third',
+				position: {}
 			} );
 
 			expect( balloon.visibleView ).to.equal( viewA );
@@ -797,7 +798,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			rotatorView.buttonNextView.fire( 'execute' );
@@ -810,7 +812,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			rotatorView.focusTracker.isFocused = true;
@@ -823,12 +826,14 @@ describe( 'ContextualBalloon', () => {
 		it( 'should switch stack to the prev one after clicking prev button', () => {
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			balloon.add( {
 				view: viewC,
-				stackId: 'third'
+				stackId: 'third',
+				position: {}
 			} );
 
 			expect( balloon.visibleView ).to.equal( viewA );
@@ -851,7 +856,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			rotatorView.buttonPrevView.fire( 'execute' );
@@ -864,7 +870,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			rotatorView.focusTracker.isFocused = true;
@@ -888,7 +895,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			expect( fakePanelsView.element.classList.contains( 'ck-hidden' ) ).to.equal( false );
@@ -896,7 +904,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewC,
-				stackId: 'third'
+				stackId: 'third',
+				position: {}
 			} );
 
 			expect( fakePanelsView.element.classList.contains( 'ck-hidden' ) ).to.equal( false );
@@ -904,7 +913,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewD,
-				stackId: 'fourth'
+				stackId: 'fourth',
+				position: {}
 			} );
 
 			expect( fakePanelsView.element.classList.contains( 'ck-hidden' ) ).to.equal( false );
@@ -939,7 +949,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewB,
-				stackId: 'second'
+				stackId: 'second',
+				position: {}
 			} );
 
 			expect( fakePanelsView.element.style.top ).to.equal( '10px' );
@@ -954,7 +965,8 @@ describe( 'ContextualBalloon', () => {
 
 			balloon.add( {
 				view: viewC,
-				stackId: 'third'
+				stackId: 'third',
+				position: {}
 			} );
 
 			expect( fakePanelsView.element.style.top ).to.equal( '15px' );
@@ -1018,12 +1030,14 @@ describe( 'ContextualBalloon', () => {
 					sinon.stub( balloon.view, 'pin' ).returns( {} );
 
 					balloon.add( {
-						view: new View()
+						view: new View(),
+						position: {}
 					} );
 
 					balloon.add( {
 						view: new View(),
-						stackId: 'second'
+						stackId: 'second',
+						position: {}
 					} );
 
 					const rotatorView = balloon.view.content.get( 0 );
@@ -1044,7 +1058,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewB,
 					stackId: 'second',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( navigationElement.classList.contains( 'ck-hidden' ) ).to.be.true;
@@ -1057,7 +1072,8 @@ describe( 'ContextualBalloon', () => {
 
 				balloon.add( {
 					view: viewB,
-					stackId: 'second'
+					stackId: 'second',
+					position: {}
 				} );
 
 				expect( navigationElement.classList.contains( 'ck-hidden' ) ).to.be.false;
@@ -1065,7 +1081,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewC,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( navigationElement.classList.contains( 'ck-hidden' ) ).to.be.true;
@@ -1076,13 +1093,15 @@ describe( 'ContextualBalloon', () => {
 
 				balloon.add( {
 					view: viewB,
-					stackId: 'second'
+					stackId: 'second',
+					position: {}
 				} );
 
 				balloon.add( {
 					view: viewC,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( navigationElement.classList.contains( 'ck-hidden' ) ).to.be.true;
@@ -1097,19 +1116,22 @@ describe( 'ContextualBalloon', () => {
 
 				balloon.add( {
 					view: viewB,
-					stackId: 'second'
+					stackId: 'second',
+					position: {}
 				} );
 
 				balloon.add( {
 					view: viewC,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				balloon.add( {
 					view: viewD,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( navigationElement.classList.contains( 'ck-hidden' ) ).to.be.true;
@@ -1128,7 +1150,8 @@ describe( 'ContextualBalloon', () => {
 
 				balloon.add( {
 					view: viewB,
-					stackId: 'second'
+					stackId: 'second',
+					position: {}
 				} );
 
 				expect( fakePanelsView.element.classList.contains( 'ck-hidden' ) ).to.equal( false );
@@ -1137,7 +1160,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewC,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( fakePanelsView.element.classList.contains( 'ck-hidden' ) ).to.be.true;
@@ -1158,7 +1182,8 @@ describe( 'ContextualBalloon', () => {
 
 				balloon.add( {
 					view: viewB,
-					stackId: 'second'
+					stackId: 'second',
+					position: {}
 				} );
 
 				expect( balloon.visibleView ).to.equal( viewA );
@@ -1166,7 +1191,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewC,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( balloon.visibleView ).to.equal( viewC );
@@ -1176,7 +1202,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewD,
 					stackId: 'fifth',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( balloon.visibleView ).to.equal( viewD );
@@ -1189,7 +1216,8 @@ describe( 'ContextualBalloon', () => {
 
 				balloon.add( {
 					view: viewB,
-					stackId: 'second'
+					stackId: 'second',
+					position: {}
 				} );
 
 				expect( balloon.visibleView ).to.equal( viewA );
@@ -1197,7 +1225,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewC,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( balloon.visibleView ).to.equal( viewC );
@@ -1207,7 +1236,8 @@ describe( 'ContextualBalloon', () => {
 				balloon.add( {
 					view: viewD,
 					stackId: 'third',
-					singleViewMode: true
+					singleViewMode: true,
+					position: {}
 				} );
 
 				expect( balloon.visibleView ).to.equal( viewD );

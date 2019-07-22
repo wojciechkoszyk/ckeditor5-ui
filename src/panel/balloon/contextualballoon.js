@@ -290,8 +290,9 @@ export default class ContextualBalloon extends Plugin {
 	 * Shows the last view from the stack of a given ID.
 	 *
 	 * @param {String} id
+	 * @param {module:utils/dom/position~Options} [position]
 	 */
-	showStack( id ) {
+	showStack( id, position ) {
 		const stack = this._idToStack.get( id );
 
 		if ( !stack ) {
@@ -310,7 +311,7 @@ export default class ContextualBalloon extends Plugin {
 			return;
 		}
 
-		this._showView( Array.from( stack.keys() ).pop() );
+		this._showView( Array.from( stack.keys() ).pop(), position );
 	}
 
 	/**
@@ -327,7 +328,7 @@ export default class ContextualBalloon extends Plugin {
 	 * Returns the ID of the given stack.
 	 *
 	 * @private
-	 * @param {Set} stack
+	 * @param {Map} stack
 	 * @returns {String}
 	 */
 	_getStackId( stack ) {
@@ -350,7 +351,17 @@ export default class ContextualBalloon extends Plugin {
 			nextIndex = 0;
 		}
 
-		this.showStack( this._getStackId( stacks[ nextIndex ] ) );
+		const nextStack = stacks[ nextIndex ];
+		let position;
+
+		const nextViewPosition = Array.from( nextStack.values() ).pop().position;
+		const currentViewPosition = this._visibleStack.get( this.visibleView ).position;
+
+		if ( nextViewPosition.target === currentViewPosition.target ) {
+			position = currentViewPosition;
+		}
+
+		this.showStack( this._getStackId( nextStack ), position );
 	}
 
 	/**
@@ -367,7 +378,17 @@ export default class ContextualBalloon extends Plugin {
 			nextIndex = stacks.length - 1;
 		}
 
-		this.showStack( this._getStackId( stacks[ nextIndex ] ) );
+		const nextStack = stacks[ nextIndex ];
+		let position;
+
+		const nextViewPosition = Array.from( nextStack.values() ).pop().position;
+		const currentViewPosition = this._visibleStack.get( this.visibleView ).position;
+
+		if ( nextViewPosition.target === currentViewPosition.target ) {
+			position = currentViewPosition;
+		}
+
+		this.showStack( this._getStackId( nextStack ), position );
 	}
 
 	/**
@@ -450,18 +471,18 @@ export default class ContextualBalloon extends Plugin {
 	 *
 	 * @private
 	 * @param {module:ui/view~View} view The view to show in the balloon.
+	 * @param {module:utils/dom/position~Options} [position]
 	 */
-	_showView( view ) {
+	_showView( view, position ) {
 		const stack = this._viewToStack.get( view );
 		const { balloonClassName, withArrow, singleViewMode } = stack.get( view );
 
 		this.view.class = balloonClassName;
 		this.view.withArrow = withArrow;
 		this._rotatorView.showView( view );
-		this.visibleView = view;
-		this.view.pin( this._getBalloonPosition() );
-		this._fakePanelsView.updatePosition();
 		this._singleViewMode = singleViewMode;
+		this.visibleView = view;
+		this.updatePosition( position );
 	}
 
 	/**
