@@ -158,6 +158,26 @@ describe( 'ViewCollection', () => {
 			expect( view.id ).to.equal( 1 );
 			expect( view.viewUid ).to.be.a( 'string' );
 		} );
+
+		it( 'works with multiple views at a time', () => {
+			const view1 = new View();
+			view1.element = document.createElement( 'i' );
+			sinon.spy( view1, 'render' );
+
+			const view2 = new View();
+			view2.element = document.createElement( 'b' );
+			sinon.spy( view2, 'render' );
+
+			const collection = new ViewCollection();
+			const parentElement = document.createElement( 'div' );
+
+			collection.setParent( parentElement );
+
+			collection.add( view1, view2 );
+			expect( normalizeHtml( parentElement.outerHTML ) ).to.equal( '<div><i></i><b></b></div>' );
+			sinon.assert.calledOnce( view1.render );
+			sinon.assert.calledOnce( view2.render );
+		} );
 	} );
 
 	describe( 'setParent()', () => {
