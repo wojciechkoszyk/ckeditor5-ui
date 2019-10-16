@@ -188,8 +188,8 @@ export default class ViewCollection extends Collection {
 	/**
 	 * This method {@link module:ui/view~View#render renders} a new view added to the collection.
 	 *
-	 * If {@link #_parentElement parent element} is set, this method also adds the view's
-	 * {@link module:ui/view~View#element} as a child of the parent in DOM at a specified index.
+	 * If the {@link #_parentElement parent element} of the collection is set, this method also adds
+	 * the view's {@link module:ui/view~View#element} as a child of the parent in DOM at a specified index.
 	 *
 	 * **Note**: If index is not specified, the view's element is pushed as the last child
 	 * of the parent element.
