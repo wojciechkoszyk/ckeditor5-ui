@@ -16,6 +16,7 @@ import ListItemView from '../list/listitemview';
 import ListSeparatorView from '../list/listseparatorview';
 import ButtonView from '../button/buttonview';
 import SwitchButtonView from '../button/switchbuttonview';
+import SplitButtonView from './button/splitbuttonview';
 
 import clickOutsideHandler from '../bindings/clickoutsidehandler';
 
@@ -219,6 +220,47 @@ export function addListToDropdown( dropdownView, items ) {
 	dropdownView.panelView.children.add( listView );
 
 	listView.items.delegate( 'execute' ).to( dropdownView );
+}
+
+export function createStaticSplitButtonToolbar( locale, buttons ) {
+	const firstButton = buttons[ 0 ];
+	const dropdownView = createDropdown( locale, SplitButtonView );
+	const splitButtonView = dropdownView.buttonView;
+
+	// -- Setup the dropdown.
+
+	addToolbarToDropdown( dropdownView, buttons );
+
+	dropdownView.toolbarView.ariaLabel = locale.t( 'Indent toolbar' );
+
+	dropdownView.bind( 'isEnabled' ).to( firstButton, 'isEnabled' );
+
+	// -- Setup the split button.
+
+	splitButtonView.set( {
+		isToggleable: true,
+		tooltip: firstButton.label,
+		keystroke: firstButton.keystroke,
+		icon: firstButton.icon
+	} );
+
+	splitButtonView.bind( 'isOn' ).to( firstButton, 'isOn' );
+
+	splitButtonView.delegate( 'execute' ).to( dropdownView );
+
+	splitButtonView.on( 'execute', () => {
+		firstButton.fire( 'execute' );
+	} );
+
+	// -- Setup the split button arrow that opens the toolbar.
+
+	splitButtonView.arrowView.unbind( 'isEnabled' );
+
+	splitButtonView.arrowView.bind( 'isEnabled' ).toMany( buttons, 'isEnabled', ( ...areEnabled ) => {
+		return areEnabled.some( isEnabled => isEnabled );
+	} );
+
+	return dropdownView;
 }
 
 // Add a set of default behaviors to dropdown view.
