@@ -7,19 +7,16 @@
  * @module ui/colorgrid/colorgrid
  */
 
-import View from '../view';
 import ColorTileView from './colortileview';
-import FocusTracker from '@ckeditor/ckeditor5-utils/src/focustracker';
-import FocusCycler from '../focuscycler';
-import KeystrokeHandler from '@ckeditor/ckeditor5-utils/src/keystrokehandler';
+import GridView from '../gridview';
 import '../../theme/components/colorgrid/colorgrid.css';
 
 /**
  * A grid of {@link module:ui/colorgrid/colortile~ColorTileView color tiles}.
  *
- * @extends module:ui/view~View
+ * @extends module:ui/view~GridView
  */
-export default class ColorGridView extends View {
+export default class ColorGridView extends GridView {
 	/**
 	 * Creates an instance of a color grid containing {@link module:ui/colorgrid/colortile~ColorTileView tiles}.
 	 *
@@ -30,7 +27,7 @@ export default class ColorGridView extends View {
 	 * @param {Number} options.columns A number of columns to display the tiles.
 	 */
 	constructor( locale, options ) {
-		super( locale );
+		super( locale, options );
 
 		const colorDefinitions = options && options.colorDefinitions || [];
 		const viewStyleAttribute = {};
@@ -46,50 +43,6 @@ export default class ColorGridView extends View {
 		 * @type {String}
 		 */
 		this.set( 'selectedColor' );
-
-		/**
-		 * Collection of the child tile views.
-		 *
-		 * @readonly
-		 * @member {module:ui/viewcollection~ViewCollection}
-		 */
-		this.items = this.createCollection();
-
-		/**
-		 * Tracks information about DOM focus in the grid.
-		 *
-		 * @readonly
-		 * @member {module:utils/focustracker~FocusTracker}
-		 */
-		this.focusTracker = new FocusTracker();
-
-		/**
-		 * Instance of the {@link module:utils/keystrokehandler~KeystrokeHandler}.
-		 *
-		 * @readonly
-		 * @member {module:utils/keystrokehandler~KeystrokeHandler}
-		 */
-		this.keystrokes = new KeystrokeHandler();
-
-		/**
-		 * Helps cycling over focusable {@link #items} in the grid.
-		 *
-		 * @readonly
-		 * @protected
-		 * @member {module:ui/focuscycler~FocusCycler}
-		 */
-		this._focusCycler = new FocusCycler( {
-			focusables: this.items,
-			focusTracker: this.focusTracker,
-			keystrokeHandler: this.keystrokes,
-			actions: {
-				// Navigate grid items backwards using the arrowup key.
-				focusPrevious: 'arrowleft',
-
-				// Navigate grid items forwards using the arrowdown key.
-				focusNext: 'arrowright',
-			}
-		} );
 
 		this.items.on( 'add', ( evt, colorTile ) => {
 			colorTile.isOn = colorTile.color === this.selectedColor;
@@ -116,15 +69,9 @@ export default class ColorGridView extends View {
 			this.items.add( colorTile );
 		} );
 
-		this.setTemplate( {
-			tag: 'div',
-			children: this.items,
+		this.extendTemplate( {
 			attributes: {
-				class: [
-					'ck',
-					'ck-color-grid'
-				],
-				style: viewStyleAttribute
+				class: [ 'ck-color-grid' ]
 			}
 		} );
 
@@ -133,47 +80,6 @@ export default class ColorGridView extends View {
 				item.isOn = item.color === selectedColor;
 			}
 		} );
-	}
-
-	/**
-	 * Focuses the first focusable in {@link #items}.
-	 */
-	focus() {
-		if ( this.items.length ) {
-			this.items.first.focus();
-		}
-	}
-
-	/**
-	 * Focuses the last focusable in {@link #items}.
-	 */
-	focusLast() {
-		if ( this.items.length ) {
-			this.items.last.focus();
-		}
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	render() {
-		super.render();
-
-		// Items added before rendering should be known to the #focusTracker.
-		for ( const item of this.items ) {
-			this.focusTracker.add( item.element );
-		}
-
-		this.items.on( 'add', ( evt, item ) => {
-			this.focusTracker.add( item.element );
-		} );
-
-		this.items.on( 'remove', ( evt, item ) => {
-			this.focusTracker.remove( item.element );
-		} );
-
-		// Start listening for the keystrokes coming from #element.
-		this.keystrokes.listenTo( this.element );
 	}
 }
 
