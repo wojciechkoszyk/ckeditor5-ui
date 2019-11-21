@@ -52,6 +52,10 @@ describe( 'SelectView', () => {
 			view.id = 'bar';
 		} );
 
+		afterEach( () => {
+			view.destroy();
+		} );
+
 		describe( 'value', () => {
 			it( 'should react on view#value', () => {
 				expect( view.element.value ).to.equal( 'foo' );
@@ -66,7 +70,7 @@ describe( 'SelectView', () => {
 				expect( view.element.value ).to.equal( 'bar' );
 			} );
 
-			it( 'ignores request for setting wrong value', () => {
+			it( 'ignores requests for setting a wrong value', () => {
 				view.value = 'boom';
 
 				expect( view.element.value ).to.be.equal( 'foo' );
@@ -105,8 +109,6 @@ describe( 'SelectView', () => {
 			view.focus();
 
 			sinon.assert.calledOnce( spy );
-
-			view.destroy();
 		} );
 	} );
 } );
