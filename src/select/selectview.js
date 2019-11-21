@@ -4,7 +4,7 @@
  */
 
 /**
- * @module ui/selectview/selectview
+ * @module ui/select/selectview
  */
 
 import View from '../view';
@@ -25,7 +25,7 @@ export default class SelectView extends View {
 	 * Also see {@link #render}.
 	 *
 	 * @param {module:utils/locale~Locale} locale The localization services instance.
-	 * @param {Array.<~SelectViewOption>} options Options to choose.
+	 * @param {Array.<module:ui/select/selectview~SelectViewOption>} options Options to choose from.
 	 */
 	constructor( locale, options ) {
 		super( locale );
@@ -57,7 +57,7 @@ export default class SelectView extends View {
 		/**
 		 * Options to choose.
 		 *
-		 * @type {Array.<~SelectViewOption>}
+		 * @type {Array.<module:ui/select/selectview~SelectViewOption>}
 		 * @private
 		 */
 		this._options = options;
@@ -139,7 +139,7 @@ export default class SelectView extends View {
 }
 
 /**
- * @typedef {Object} module:ui/selectview/selectview~SelectViewOption
+ * @typedef {Object} module:ui/select/selectview~SelectViewOption
  *
  * @property {String} value A value of the option.
  *
