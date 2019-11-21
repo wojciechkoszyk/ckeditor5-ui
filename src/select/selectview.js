@@ -53,14 +53,6 @@ export default class SelectView extends View {
 		this.set( 'id' );
 
 		/**
-		 * Controls whether the select view is in read-only mode.
-		 *
-		 * @observable
-		 * @member {Boolean} #isReadOnly
-		 */
-		this.set( 'isReadOnly', false );
-
-		/**
 		 * Items to choose from.
 		 *
 		 * @type {Array.<module:ui/select/selectview~SelectViewItem>}
@@ -78,8 +70,7 @@ export default class SelectView extends View {
 					'ck-input',
 					'ck-input-select',
 				],
-				id: bind.to( 'id' ),
-				disabled: bind.to( 'isReadOnly' )
+				id: bind.to( 'id' )
 			},
 			on: {
 				input: bind.to( 'input' )

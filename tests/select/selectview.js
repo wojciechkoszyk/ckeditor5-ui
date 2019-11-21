@@ -83,16 +83,6 @@ describe( 'SelectView', () => {
 			} );
 		} );
 
-		describe( 'isReadOnly', () => {
-			it( 'should react on view#isReadOnly', () => {
-				expect( view.element.disabled ).to.false;
-
-				view.isReadOnly = true;
-
-				expect( view.element.disabled ).to.true;
-			} );
-		} );
-
 		describe( 'input event', () => {
 			it( 'triggers view#input', () => {
 				const spy = sinon.spy();
