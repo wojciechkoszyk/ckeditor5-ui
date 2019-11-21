@@ -8,7 +8,6 @@
  */
 
 import View from '../view';
-import CKEditorError from '@ckeditor/ckeditor5-utils/src/ckeditorerror';
 import global from '@ckeditor/ckeditor5-utils/src/dom/global';
 
 import '../../theme/components/select/select.css';
@@ -25,10 +24,17 @@ export default class SelectView extends View {
 	 * Also see {@link #render}.
 	 *
 	 * @param {module:utils/locale~Locale} locale The localization services instance.
-	 * @param {Array.<module:ui/select/selectview~SelectViewOption>} options Options to choose from.
+	 * @param {Array.<module:ui/select/selectview~SelectViewItem>} items Items to choose from.
 	 */
-	constructor( locale, options ) {
+	constructor( locale, items ) {
 		super( locale );
+
+		/**
+		 * Fired when the user selects an item. Corresponds to the native
+		 * DOM `input` event.
+		 *
+		 * @event input
+		 */
 
 		/**
 		 * The value of the select.
@@ -55,12 +61,12 @@ export default class SelectView extends View {
 		this.set( 'isReadOnly', false );
 
 		/**
-		 * Options to choose.
+		 * Items to choose from.
 		 *
-		 * @type {Array.<module:ui/select/selectview~SelectViewOption>}
+		 * @type {Array.<module:ui/select/selectview~SelectViewItem>}
 		 * @private
 		 */
-		this._options = options;
+		this._items = items;
 
 		const bind = this.bindTemplate;
 
@@ -79,13 +85,6 @@ export default class SelectView extends View {
 				input: bind.to( 'input' )
 			}
 		} );
-
-		/**
-		 * Fired when the user selects an option. Corresponds to the native
-		 * DOM `input` event.
-		 *
-		 * @event input
-		 */
 	}
 
 	/**
@@ -94,19 +93,13 @@ export default class SelectView extends View {
 	render() {
 		super.render();
 
-		for ( const option of this._options ) {
-			this.element.options.add( new global.window.Option( option.label, option.value ) );
+		for ( const item of this._items ) {
+			this.element.options.add( new global.window.Option( item.label, item.value ) );
 		}
 
 		this.on( 'change:value', ( evt, name, value ) => {
 			if ( !this._isAvailableValue( value ) ) {
-				/**
-				 * Specified value for the select is not available in its options.
-				 *
-				 * @error selectview-invalid-new-value
-				 * @param value Specified value
-				 */
-				throw new CKEditorError( 'selectview-invalid-new-value: Specified value is not available in the select.', this, { value } );
+				return;
 			}
 
 			this.element.value = value;
@@ -114,22 +107,22 @@ export default class SelectView extends View {
 	}
 
 	/**
-	 * Focuses the input.
+	 * Focuses the component.
 	 */
 	focus() {
 		this.element.focus();
 	}
 
 	/**
-	 * Checks whether specified `value` is available in the select's options.
+	 * Checks whether a specified `value` is available in the select's options.
 	 *
 	 * @private
 	 * @param {String} value A value to check.
 	 * @returns {Boolean}
 	 */
 	_isAvailableValue( value ) {
-		for ( const option of this._options ) {
-			if ( option.value === value ) {
+		for ( const item of this._items ) {
+			if ( item.value === value ) {
 				return true;
 			}
 		}
@@ -139,9 +132,9 @@ export default class SelectView extends View {
 }
 
 /**
- * @typedef {Object} module:ui/select/selectview~SelectViewOption
+ * @typedef {Object} module:ui/select/selectview~SelectViewItem
  *
- * @property {String} value A value of the option.
+ * @property {String} value A value of the item.
  *
- * @property {String} label A text that represents the value.
+ * @property {String} label A human friendly label that represents the value.
  */

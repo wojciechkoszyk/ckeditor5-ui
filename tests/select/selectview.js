@@ -6,7 +6,6 @@
 /* global Event */
 
 import SelectView from '../../src/select/selectview';
-import { expectToThrowCKEditorError } from '@ckeditor/ckeditor5-utils/tests/_utils/utils';
 
 describe( 'SelectView', () => {
 	describe( 'constructor()', () => {
@@ -67,10 +66,10 @@ describe( 'SelectView', () => {
 				expect( view.element.value ).to.equal( 'bar' );
 			} );
 
-			it( 'throws an error when trying to set a value to non-existing option', () => {
-				expectToThrowCKEditorError( () => {
-					view.value = 'foobar';
-				}, /^selectview-invalid-new-value/, view );
+			it( 'ignores request for setting wrong value', () => {
+				view.value = 'boom';
+
+				expect( view.element.value ).to.be.equal( 'foo' );
 			} );
 		} );
 
