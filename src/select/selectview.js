@@ -19,7 +19,7 @@ import '../../theme/components/select/select.css';
  */
 export default class SelectView extends View {
 	/**
-	 * Creates an instance of the {@link module:ui/view~View} class.
+	 * Creates an instance of the {@link module:ui/select/selectview~SelectView} class.
 	 *
 	 * Also see {@link #render}.
 	 *
