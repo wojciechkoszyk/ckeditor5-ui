@@ -11,7 +11,7 @@ import View from '../view';
 import CKEditorError from '@ckeditor/ckeditor5-utils/src/ckeditorerror';
 import global from '@ckeditor/ckeditor5-utils/src/dom/global';
 
-import '../../theme/components/selectview/selectview.css';
+import '../../theme/components/select/select.css';
 
 /**
  * The select view class.

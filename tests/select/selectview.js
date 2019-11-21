@@ -5,7 +5,7 @@
 
 /* global Event */
 
-import SelectView from '../../src/selectview/selectview';
+import SelectView from '../../src/select/selectview';
 import { expectToThrowCKEditorError } from '@ckeditor/ckeditor5-utils/tests/_utils/utils';
 
 describe( 'SelectView', () => {
