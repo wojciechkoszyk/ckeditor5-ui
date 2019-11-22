@@ -9,7 +9,6 @@
 
 import ColorTileView from './colortileview';
 import GridView from '../grid/gridview';
-import '../../theme/components/colorgrid/colorgrid.css';
 
 /**
  * A grid of {@link module:ui/colorgrid/colortile~ColorTileView color tiles}.

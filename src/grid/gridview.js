@@ -11,6 +11,7 @@ import View from '../view';
 import FocusTracker from '@ckeditor/ckeditor5-utils/src/focustracker';
 import FocusCycler from '../focuscycler';
 import KeystrokeHandler from '@ckeditor/ckeditor5-utils/src/keystrokehandler';
+import '../../theme/components/grid/grid.css';
 
 /**
  * A grid of nested views.
