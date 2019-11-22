@@ -30,11 +30,6 @@ export default class ColorGridView extends GridView {
 		super( locale, options );
 
 		const colorDefinitions = options && options.colorDefinitions || [];
-		const viewStyleAttribute = {};
-
-		if ( options && options.columns ) {
-			viewStyleAttribute.gridTemplateColumns = `repeat( ${ options.columns }, 1fr)`;
-		}
 
 		/**
 		 * The color of the currently selected color tile in {@link #items}.
