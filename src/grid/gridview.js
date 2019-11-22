@@ -16,6 +16,26 @@ import '../../theme/components/grid/grid.css';
 /**
  * A grid of nested views.
  *
+ *
+ *		import GridView from '@ckeditor/ckeditor5-ui/src/grid/gridview';
+ *		import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
+ *
+ *		// ...
+ *
+ *		const grid = new GridView( locale, {
+ *			columns: 2
+ *		} );
+ *
+ *		for ( const buttonLabel of [ 'foo', 'bar', 'baz' ] ) {
+ *			const currentButton = new ButtonView( locale );
+ *			currentButton.label = buttonLabel;
+ *			currentButton.withText = true;
+ *
+ *			grid.items.add( currentButton );
+ *		}
+ *
+ *		// Now grid can be added to another view.
+ *
  * @extends module:ui/view~View
  */
 export default class GridView extends View {
