@@ -8,7 +8,7 @@
  */
 
 import ColorTileView from './colortileview';
-import GridView from '../gridview';
+import GridView from '../grid/gridview';
 import '../../theme/components/colorgrid/colorgrid.css';
 
 /**

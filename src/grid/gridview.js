@@ -7,9 +7,9 @@
  * @module ui/grid
  */
 
-import View from './view';
+import View from '../view';
 import FocusTracker from '@ckeditor/ckeditor5-utils/src/focustracker';
-import FocusCycler from './focuscycler';
+import FocusCycler from '../focuscycler';
 import KeystrokeHandler from '@ckeditor/ckeditor5-utils/src/keystrokehandler';
 
 /**
