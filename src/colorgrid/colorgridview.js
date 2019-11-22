@@ -14,7 +14,7 @@ import '../../theme/components/colorgrid/colorgrid.css';
 /**
  * A grid of {@link module:ui/colorgrid/colortile~ColorTileView color tiles}.
  *
- * @extends module:ui/view/grid~GridView
+ * @extends module:ui/grid~GridView
  */
 export default class ColorGridView extends GridView {
 	/**
