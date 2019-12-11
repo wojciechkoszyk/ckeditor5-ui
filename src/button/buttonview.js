@@ -52,6 +52,7 @@ export default class ButtonView extends View {
 		this.set( 'isEnabled', true );
 		this.set( 'isOn', false );
 		this.set( 'isVisible', true );
+		this.set( 'isToggleable', false );
 		this.set( 'keystroke' );
 		this.set( 'label' );
 		this.set( 'tabindex', -1 );
@@ -59,6 +60,7 @@ export default class ButtonView extends View {
 		this.set( 'tooltipPosition', 's' );
 		this.set( 'type', 'button' );
 		this.set( 'withText', false );
+		this.set( 'withKeystroke', false );
 
 		/**
 		 * Collection of the child views inside of the button {@link #element}.
@@ -100,6 +102,16 @@ export default class ButtonView extends View {
 		} );
 
 		/**
+		 * A view displaying the keystroke of the button next to the {@link #labelView label}.
+		 * Added to {@link #children} when the {@link #withKeystroke `withKeystroke` attribute}
+		 * is defined.
+		 *
+		 * @readonly
+		 * @member {module:ui/view/view~View} #keystrokeView
+		 */
+		this.keystrokeView = this._createKeystrokeView();
+
+		/**
 		 * Tooltip of the button bound to the template.
 		 *
 		 * @see #tooltip
@@ -126,13 +138,14 @@ export default class ButtonView extends View {
 					bind.if( 'isEnabled', 'ck-disabled', value => !value ),
 					bind.if( 'isVisible', 'ck-hidden', value => !value ),
 					bind.to( 'isOn', value => value ? 'ck-on' : 'ck-off' ),
-					bind.if( 'withText', 'ck-button_with-text' )
+					bind.if( 'withText', 'ck-button_with-text' ),
+					bind.if( 'withKeystroke', 'ck-button_with-keystroke' ),
 				],
 				type: bind.to( 'type', value => value ? value : 'button' ),
 				tabindex: bind.to( 'tabindex' ),
 				'aria-labelledby': `ck-editor__aria-label_${ ariaLabelUid }`,
 				'aria-disabled': bind.if( 'isEnabled', true, value => !value ),
-				'aria-pressed': bind.if( 'isOn', true )
+				'aria-pressed': bind.to( 'isOn', value => this.isToggleable ? String( value ) : false )
 			},
 
 			children: this.children,
@@ -170,6 +183,10 @@ export default class ButtonView extends View {
 
 		this.children.add( this.tooltipView );
 		this.children.add( this.labelView );
+
+		if ( this.withKeystroke ) {
+			this.children.add( this.keystrokeView );
+		}
 	}
 
 	/**
@@ -226,6 +243,36 @@ export default class ButtonView extends View {
 		} );
 
 		return labelView;
+	}
+
+	/**
+	 * Creates a view that displays a keystroke next to a {@link #labelView label }
+	 * and binds it with button attributes.
+	 *
+	 * @private
+	 * @returns {module:ui/view~View}
+	 */
+	_createKeystrokeView() {
+		const keystrokeView = new View();
+
+		keystrokeView.setTemplate( {
+			tag: 'span',
+
+			attributes: {
+				class: [
+					'ck',
+					'ck-button__keystroke'
+				]
+			},
+
+			children: [
+				{
+					text: this.bindTemplate.to( 'keystroke', text => getEnvKeystrokeText( text ) )
+				}
+			]
+		} );
+
+		return keystrokeView;
 	}
 
 	/**

@@ -42,6 +42,7 @@ export default class ColorGridView extends View {
 		/**
 		 * The color of the currently selected color tile in {@link #items}.
 		 *
+		 * @observable
 		 * @type {String}
 		 */
 		this.set( 'selectedColor' );
@@ -88,6 +89,10 @@ export default class ColorGridView extends View {
 				// Navigate grid items forwards using the arrowdown key.
 				focusNext: 'arrowright',
 			}
+		} );
+
+		this.items.on( 'add', ( evt, colorTile ) => {
+			colorTile.isOn = colorTile.color === this.selectedColor;
 		} );
 
 		colorDefinitions.forEach( item => {
